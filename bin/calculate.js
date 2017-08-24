@@ -23,6 +23,6 @@ cc.priceMulti(symbols, ['USD'])
 	};
 	res.push(asset);
     }
-    console.log(JSON.stringify(res));
+    fs.writeFileSync('../data/'+date.replace(/-/g,'')+'.json', JSON.stringify(res));
 })
 .catch(console.error)
