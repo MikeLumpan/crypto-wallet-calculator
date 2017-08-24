@@ -1,0 +1,95 @@
+{
+   "AEON": {
+      "quantity": 12.4
+   },
+   "BCN": {
+      "quantity": 8500
+   },
+   "BTC": {
+      "quantity": 0.00248323
+   },
+   "BNT": {
+      "quantity": 3.42
+   },
+   "DASH": {
+      "quantity": 0.035
+   },
+   "DCT": {
+      "quantity": 8.221
+   },
+   "DNT": {
+      "quantity": 47.75
+   },
+   "DOGE": {
+      "quantity": 6000
+   },
+   "EDG": {
+      "quantity": 11
+   },
+   "EOS": {
+      "quantity": 7.524
+   },
+   "ETC": {
+      "quantity": 0.701
+   },
+   "ETH": {
+      "quantity": 0.029
+   },
+   "LSK": {
+      "quantity": 3.31
+   },
+   "LTC": {
+      "quantity": 0.2
+   },
+   "MAID": {
+      "quantity": 20
+   },
+   "NXT": {
+      "quantity": 94
+   },
+   "OAX": {
+      "quantity": 5.587
+   },
+   "PLBT": {
+      "quantity": 1.346
+   },
+   "PPC": {
+      "quantity": 5.618
+   },
+   "QAU": {
+      "quantity": 59.229
+   },
+   "SC": {
+      "quantity": 1400
+   },
+   "SNC": {
+      "quantity": 112.863
+   },
+   "STRAT": {
+      "quantity": 1.844
+   },
+   "STX": {
+      "quantity": 4.167
+   },
+   "XDN": {
+      "quantity": 3700
+   },
+   "XEM": {
+      "quantity": 38
+   },
+   "XMR": {
+      "quantity": 0.12
+   },
+   "XRP": {
+      "quantity": 62
+   },
+   "ZEC": {
+      "quantity": 0.04
+   },
+   "ZRC": {
+      "quantity": 7.808
+   },
+   "ZRX": {
+      "quantity": 28.066
+   }
+}

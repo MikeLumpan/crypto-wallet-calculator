@@ -1,0 +1,26 @@
+{
+  "name": "crypto-wallet-calculator",
+  "version": "1.0.0",
+  "description": "Calculate the value of all your crypto currencies.",
+  "main": "bin/calculate.js",
+  "bin": {
+    "crypto-wallet-calculator": "calculate.js"
+  },
+  "dependencies": {
+    "cryptocompare": "^0.1.0",
+    "fetch": "^1.1.0",
+    "node-fetch": "^1.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmclain/crypto-wallet-calculator.git"
+  },
+  "author": "Brett McLain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bmclain/crypto-wallet-calculator/issues"
+  },
+  "homepage": "https://github.com/bmclain/crypto-wallet-calculator#readme"
+}
