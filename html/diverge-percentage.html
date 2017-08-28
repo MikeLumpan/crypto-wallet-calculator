@@ -61,7 +61,7 @@ d3.json('/data/20170820.json', function (originalError, originalData) {
         data.forEach(function(d) {
             counter++;
             // calc percentages
-            var gainLoss = d.position - originalData[counter].position;
+            var gainLoss = ((d.position / originalData[counter].position) * 100) - 100;
             var x0 = 0;
             var idx = 0;
             if (gainLoss < 0) {
@@ -71,7 +71,7 @@ d3.json('/data/20170820.json', function (originalError, originalData) {
                         name: name, 
                         x0: gainLoss+x0, //starting position of rectangle
                         x1: Math.abs(gainLoss), //width of rectangle
-                        position: parseFloat(gainLoss).toFixed(4),
+                        position: parseFloat(gainLoss).toFixed(1),
                     }; 
                 });
             } else {
@@ -81,7 +81,7 @@ d3.json('/data/20170820.json', function (originalError, originalData) {
                         name: name, 
                         x0: x0, //starting position of rectangle 
                         x1: Math.abs(gainLoss), //width of rectangle
-                        position: parseFloat(gainLoss).toFixed(4) 
+                        position: parseFloat(gainLoss).toFixed(1) 
                     }; 
                 });
             }
@@ -131,7 +131,7 @@ d3.json('/data/20170820.json', function (originalError, originalData) {
             .attr("dx", "0.5em")
             .style("font" ,"10px sans-serif")
             .style("text-anchor", "begin")
-            .text(function(d) { return d.position; });
+            .text(function(d) { return (d.position + '%'); });
 
         vakken.insert("rect",":first-child")
             .attr("height", y.rangeBand())
@@ -152,7 +152,7 @@ d3.json('/data/20170820.json', function (originalError, originalData) {
         // this is not nice, we should calculate the bounding box and use that
         var legend_tabs = [0, 120, 200, 375, 450];
         var legend = startp.selectAll(".legend")
-            .data(color.domain().slice())
+            .data("% " + color.domain().slice())
             .enter().append("g")
             .attr("class", "legend")
             .attr("transform", function(d, i) { return "translate(" + legend_tabs[i] + ",-45)"; });
@@ -169,7 +169,7 @@ d3.json('/data/20170820.json', function (originalError, originalData) {
             .attr("dy", ".35em")
             .style("text-anchor", "begin")
             .style("font" ,"10px sans-serif")
-            .text(function(d) { return "USD " + d; });
+            .text(function(d) { return ("% " + d); });
 
         d3.selectAll(".axis path")
             .style("fill", "none")
