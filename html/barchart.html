@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.js"></script>
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.js"></script>
+    <style>
+        body {
+          font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+    </style>
 </head>
 <body>
 	<svg width="800" height="800"></svg>
@@ -22,68 +34,71 @@
 	//load data
         let yyyyMMDD = getUrlParameter('date');
 	d3.json('/data/'+yyyyMMDD+'.json', function (error, data) {
-		console.log(data);
-		if(error) throw error;
-
-	//sort data
-	data.sort(function(a,b) { return a.position - b.position; });
-	console.log(data[data.length-1]);
-        //define domains based on data
-	x.domain([0, data[data.length-1].position]);
-	y.domain(data.map(function(d) { return d.name + ' - ' + d.symbol; }));
-	//append x axis to svg
-	g.append("g")
-		.attr("class", "x-axis")
-		.attr("transform", "translate(0," + height + ")")
-		.call(d3.axisBottom(x))
-		.append("text")
-		.attr("y", 30)
-		.attr("x", 300)
-		.attr("dy", "0.5em")
-		.style("fill", "black")
+	    if(error) throw error;
+            //sort data
+            data.sort(function(a,b) { return a.position - b.position; });
+            console.log(data[data.length-1]);
+            //define domains based on data
+            x.domain([0, data[data.length-1].position]);
+            y.domain(data.map(function(d) { return d.name + ' - ' + d.symbol; }));
+            //append x axis to svg
+            g.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x))
+                .append("text")
+                .attr("y", 30)
+                .attr("x", 300)
+                .attr("dy", "0.5em")
+                .style("fill", "black")
                 .style("font", "14px monospace")
-		.text("$ Position in USD");
+                .text("$ Position in USD");
 
-	//append y axis to svg
-	g.append("g")
-		.attr("class", "y-axis")
+            g.append("g")
+                .attr("class", "y axis garb")
+                .append("line")
+                .attr("x1", x(10))
+                .attr("x2", x(10))
+                .attr("y2", height);
+
+            //append y axis to svg
+            g.append("g")
+                .attr("class", "y-axis")
                 .style("font", "14px arial")
-		.call(d3.axisLeft(y));
+                .call(d3.axisLeft(y));
 
-	//append rects to svg based on data
-	g.selectAll(".bar")
-		.data(data)
-		.enter()
-		.append("rect")
-		.attr("class", "bar")
-		.attr("x", 0)
-		.attr("y", function(d) { return y(d.name + ' - ' + d.symbol); })
-		.attr("height", y.bandwidth())
-		.attr("width", function(d) { return x(d.position); })
+            //append rects to svg based on data
+            g.selectAll(".bar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", 0)
+                .attr("y", function(d) { return y(d.name + ' - ' + d.symbol); })
+                .attr("height", y.bandwidth())
+                .attr("width", function(d) { return x(d.position); })
                 .style("fill", function(d, i) {
                     return color(i);
                 });
-	});
+        });
 
 	//define chart title to svg
-	let title = svg.append("g")
-		.attr("class", "title");
-	title.append("text")
-		.attr("x", (width/1.3))
-		.attr("y", 40)
-		.attr("text-anchor", "middle")
-		.style("font", "20px sans-serif")
-		.text("Cryptocurrency Positions Week 1");
+	let title = svg.append("g").attr("class", "title");
+    	title.append("text")
+            .attr("x", (width/1.3))
+	    .attr("y", 40)
+	    .attr("text-anchor", "middle")
+	    .style("font", "20px sans-serif")
+	    .text("Cryptocurrency Positions Week 1");
 
 	//append source data to svg
-	let source = svg.append("g")
-		.attr("class", "source");
+	let source = svg.append("g").attr("class", "source");
 	source.append("text")
-		.attr("x", 10)
-		.attr("y", 800)
-		.attr("text-anchor", "left")
-		.style("font", "14px monospace")
-		.text("Source: CryptoCompare API");
+            .attr("x", 10)
+	    .attr("y", 800)
+	    .attr("text-anchor", "left")
+	    .style("font", "14px monospace")
+	    .text("Source: CryptoCompare API");
 
         function getUrlParameter(sParam) {
             var sPageURL = decodeURIComponent(window.location.search.substring(1)),
