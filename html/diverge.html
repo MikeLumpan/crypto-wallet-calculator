@@ -68,10 +68,11 @@
                         var originalBTCPrice = originalData.find(x => x.symbol == 'BTC').position;
                         var currentBTCPrice = data.find(x => x.symbol == 'BTC').position;
                         if (comparison == 'percent') {
-                            gainLoss = (((d.position - originalData[counter].position) / (currentBTCPrice - originalBTCPrice)) * 100) - 100;
-                            gainLoss = ((d.position / originalData[counter].position) * 100) - 100;
+                            gainLoss = ((((d.position - originalData[counter].position) - (currentBTCPrice - originalBTCPrice)) / originalData[counter].position) * 100);
                         } else {
+                    
                             gainLoss = (d.position - originalData[counter].position) - (currentBTCPrice - originalBTCPrice);
+                            console.log(d.symbol + ' ' + gainLoss);
                         }
                     } else if (currency == 'USD') {    
                         if (comparison == 'percent') {
@@ -138,7 +139,7 @@
                     .attr("width", function(d) { 
                         return d.type == "Loss" ? x(0)-x(d.x0) : (x(d.x1)-x(d.x0));
                     })
-                    .style("opacity", "0.5")
+                    .style("opacity", "0.3")
                     .style("fill", function(d) { return color(d.type); });
 
                 bars.append("text")
@@ -208,7 +209,7 @@
                     .attr("y", -60)
                     .attr("text-anchor", "middle")
                     .style("font", "20px sans-serif")
-                    .text("Week over week " + (comparison == 'percent' ? 'percent ' : '') + "gain/loss " + (currency == 'BTC' ? 'vs. BTC in USD' : 'in USD'));
+                    .text("Week 3 " + (comparison == 'percent' ? 'percent ' : '') + "gain/loss " + (currency == 'BTC' ? 'vs. BTC in USD' : 'in USD'));
                 
                 var movesize = width/2 - startp.node().getBBox().width/2;
                 d3.selectAll(".legendbox").attr("transform", "translate(" + movesize  + ",0)");

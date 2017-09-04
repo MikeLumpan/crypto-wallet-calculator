@@ -9,7 +9,7 @@ Usage: *.html?week=X where X is the week
 <script>
 
 var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    margin = {top: 50, right: 20, bottom: 30, left: 50},
     width = +svg.attr("width") - margin.left - margin.right,
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -39,7 +39,7 @@ d3.json("../data/balances/" + curDate + "-balance.json", function(error, data) {
 
     g.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).ticks(6))
+        .call(d3.axisBottom(x).ticks(10))
         .select(".domain");
 
     g.append("g")
@@ -60,6 +60,16 @@ d3.json("../data/balances/" + curDate + "-balance.json", function(error, data) {
         .attr("stroke-linecap", "round")
         .attr("stroke-width", 1.5)
         .attr("d", line);
+
+    let title = svg.append("g").attr("class", "title");
+    title.append("text")
+        .attr("x", (width/2))
+        .attr("y", 25)
+        .attr("text-anchor", "middle")
+        .style("font", "20px sans-serif")
+        .text("Portfolio Balance Week 3");
+
+
 });
 
 function getUrlParameter(sParam) {
