@@ -33,7 +33,7 @@ path {
 <script>
 
 // Set the dimensions of the canvas / graph
-var margin = {top: 30, right: 20, bottom: 70, left: 50},
+var margin = {top: 60, right: 20, bottom: 70, left: 50},
     width = 900 - margin.left - margin.right,
     height = 900 - margin.top - margin.bottom;
 
@@ -59,14 +59,14 @@ var priceline = d3.svg.line()
 // Adds the svg canvas
 var svg = d3.select("body")
     .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
     .append("g")
-        .attr("transform", 
-              "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Get the data
-d3.json("../data/week1-multiline.json", function(error, data) {
+
+let curDate = getUrlParameter('date');
+d3.json('..//data/currencies/' + curDate + '-currencies.json', function (error, data) {
     data.forEach(function(d) {
         d.date = new Date(d.date);
         d.price = +d.price;
@@ -91,7 +91,8 @@ d3.json("../data/week1-multiline.json", function(error, data) {
         svg.append("path")
             .attr("class", "line")
             .style("stroke", function() { // Add the colours dynamically
-                return d.color = color(d.key); })
+                return d.color = color(d.key); 
+            })
             .attr("d", priceline(d.values));
 
         // Add the Legend
@@ -101,7 +102,8 @@ d3.json("../data/week1-multiline.json", function(error, data) {
                 .attr("y", height + (margin.bottom/2)+ 5)
                 .attr("class", "legend")    // style the legend
                 .style("fill", function() { // dynamic colours
-                    return d.color = color(d.key); })
+                    return d.color = color(d.key); 
+                })
                 .text(d.key);
         } else {
              svg.append("text")
@@ -109,7 +111,8 @@ d3.json("../data/week1-multiline.json", function(error, data) {
                 .attr("y", 30 + height + (margin.bottom/2)+ 5)
                 .attr("class", "legend")    // style the legend
                 .style("fill", function() { // dynamic colours
-                    return d.color = color(d.key); })
+                    return d.color = color(d.key); 
+                })
                 .text(d.key);
         }
     });
@@ -125,7 +128,31 @@ d3.json("../data/week1-multiline.json", function(error, data) {
         .attr("class", "y axis")
         .call(yAxis);
 
+    //define chart title to svg
+    let title = svg.append("g").attr("class", "title");
+    title.append("text")
+        .attr("x", (width/2))
+        .attr("y", -40)
+        .attr("text-anchor", "middle")
+        .style("font", "20px sans-serif")
+        .text("Cryptocurrency Balances Week 3");
+
+
 });
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+}
 </script>
 </body>
 </html>

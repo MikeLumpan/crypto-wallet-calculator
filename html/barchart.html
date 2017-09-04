@@ -20,7 +20,6 @@
     <svg width="800" height="800"></svg>
     <script>
     //define chart margins
-    let color = d3.scaleOrdinal().range(["#3366CC","#DC3912","#FF9900","#109618","#990099","#3B3EAC","#0099C6","#DD4477","#66AA00","#B82E2E","#007FFF","#316395","#A1CAF1","#994499","#22AA99","#AAAA11","#A4C639","#6633CC","#E67300","#8B0707","#329262","#5574A6","#3B3EAC","#5D8AA8","#89CFF0","#006B3C","#8DB600"]);
     let svg = d3.select("svg"),
         margin = {top: 50, right: 50, bottom: 40, left: 170},
         width = svg.attr("width") - margin.left - margin.right,
@@ -33,11 +32,12 @@
 
     //load data
     let yyyyMMDD = getUrlParameter('date');
-    d3.json('/data/'+yyyyMMDD+'.json', function (error, data) {
+    d3.json('../data/raw/'+yyyyMMDD+'.json', function (error, data) {
         if(error) throw error;
         //sort data
-        data.sort(function(a,b) { return a.position - b.position; });
-        console.log(data[data.length-1]);
+        data.sort(function(a,b) { 
+            return a.position - b.position; 
+        });
         //define domains based on data
         x.domain([0, data[data.length-1].position]);
         y.domain(data.map(function(d) { return d.name + ' - ' + d.symbol; }));
@@ -78,7 +78,7 @@
             .attr("height", y.bandwidth())
             .attr("width", function(d) { return x(d.position); })
             .style("fill", function(d, i) {
-                return color(i);
+                return (d.position < 10 ? "red" : "green");
             });
     });
 
@@ -89,7 +89,7 @@
         .attr("y", 40)
         .attr("text-anchor", "middle")
         .style("font", "20px sans-serif")
-        .text("Cryptocurrency Positions Week 1");
+        .text("Cryptocurrency Positions Week 3");
 
     //append source data to svg
     let source = svg.append("g").attr("class", "source");

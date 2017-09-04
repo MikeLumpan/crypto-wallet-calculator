@@ -12,7 +12,7 @@ while (1) {
     epochDate.setDate(epochDate.getDate() + 1);
     let positions;
     try {
-        let filepath = '../data/' + epochDate.toISOString().substring(0, 10).replace(/-/g, '')+'.json';
+        let filepath = '../data/raw/' + epochDate.toISOString().substring(0, 10).replace(/-/g, '')+'.json';
         positions = JSON.parse(fs.readFileSync(filepath, 'utf8'));
     } catch (err) {
         break;
@@ -27,4 +27,4 @@ while (1) {
     }); 
     counter++;
 }
-console.log(JSON.stringify(data));
+fs.writeFileSync('../data/balances/'+(new Date().toISOString().substring(0, 10).replace(/-/g,''))+'-balance.json', JSON.stringify(data));

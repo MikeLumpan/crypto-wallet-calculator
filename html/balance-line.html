@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+Author: Brett McLain
+Usage: *.html?week=X where X is the week 
+
+-->
 <svg width="960" height="500"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
@@ -21,39 +26,56 @@ var line = d3.line()
     .x(function(d) { return x(new Date(d.date)); })
     .y(function(d) { return y(d.balance); });
 
-d3.json("../data/week1-balance.json", function(error, data) {
-  if (error) throw error;
+let curDate = getUrlParameter('date');
+d3.json("../data/balances/" + curDate + "-balance.json", function(error, data) {
+    if (error) throw error;
 
-  x.domain(d3.extent(data, function(d) { 
-    return new Date(d.date); 
-  }));
-  y.domain(d3.extent(data, function(d) { 
-    return d.balance; 
-  }));
+    x.domain(d3.extent(data, function(d) { 
+        return new Date(d.date); 
+    }));
+    y.domain(d3.extent(data, function(d) { 
+        return d.balance; 
+    }));
 
-  g.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).ticks(6))
-    .select(".domain");
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x).ticks(6))
+        .select(".domain");
 
-  g.append("g")
-      .call(d3.axisLeft(y))
-    .append("text")
-      .attr("fill", "#000")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.99em")
-      .attr("text-anchor", "end")
-      .text("Balance ($ USD)");
+    g.append("g")
+        .call(d3.axisLeft(y))
+        .append("text")
+        .attr("fill", "#000")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.99em")
+        .attr("text-anchor", "end")
+        .text("Balance ($ USD)");
 
-  g.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", 1.5)
-      .attr("d", line);
+    g.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("d", line);
 });
 
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+}
 </script>
+</body>
+</html>

@@ -9,20 +9,25 @@ let date = new Date().toISOString().substring(0, 10);
 for (let symbol in wallet) {
     symbols.push(symbol);
 }
-cc.priceMulti(symbols, ['USD'])
-.then(prices => {
-    for (let symbol in prices) {
-        wallet[symbol].position_usd = wallet[symbol].quantity * prices[symbol].USD;
-	let asset = {
-            date: date,
-	    symbol: symbol,
-            name: currencyMap[symbol],
-            quantity: wallet[symbol].quantity,
-            price: prices[symbol].USD,
-            position: wallet[symbol].quantity * prices[symbol].USD
-	};
-	res.push(asset);
-    }
-    fs.writeFileSync('../data/'+date.replace(/-/g,'')+'.json', JSON.stringify(res));
-})
-.catch(console.error)
+cc.price('USD', 'BTC')
+.then(btcPrice => {
+    console.log(btcPrice);
+    cc.priceMulti(symbols, ['USD'])
+    .then(prices => {
+        for (let symbol in prices) {
+            wallet[symbol].position_usd = wallet[symbol].quantity * prices[symbol].USD;
+            let asset = {
+                date: date,
+                symbol: symbol,
+                name: currencyMap[symbol],
+                quantity: wallet[symbol].quantity,
+                price: prices[symbol].USD,
+                position: wallet[symbol].quantity * prices[symbol].USD,
+                btcPosition: wallet[symbol].quantity * prices[symbol].USD * btcPrice.BTC
+            };
+            res.push(asset);
+        }
+        fs.writeFileSync('../data/raw/'+date.replace(/-/g,'')+'.json', JSON.stringify(res));
+    })
+    .catch(console.error);
+}).catch(console.error);

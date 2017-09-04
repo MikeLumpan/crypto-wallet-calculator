@@ -55,9 +55,9 @@
         //load data
         let fromDate = getUrlParameter('fromDate');
         let toDate = getUrlParameter('toDate');
-        d3.json('/data/'+fromDate+'.json', function (originalError, originalData) {
+        d3.json('../data/raw/'+fromDate+'.json', function (originalError, originalData) {
             if (originalError) throw originalError;
-            d3.json('/data/'+toDate+'.json', function (error, data) {
+            d3.json('../data/raw/'+toDate+'.json', function (error, data) {
                 if (error) throw error;
                 var counter = -1;
                 data.forEach(function(d) {
@@ -149,7 +149,9 @@
                     .style("font" ,"10px sans-serif")
                     .style("fill", "#000")
                     .style("text-anchor", "begin")
-                    .text(function(d) { return d.position; });
+                    .text(function(d) { 
+                        return (d.position + (comparison == 'percent' ? ' %' : '')); 
+                    });
 
                 vakken.insert("rect",":first-child")
                     .attr("height", y.rangeBand()+2)
@@ -187,7 +189,7 @@
                     .attr("dy", ".35em")
                     .style("text-anchor", "begin")
                     .style("font" ,"10px sans-serif")
-                    .text(function(d) { return "USD " + d; });
+                    .text(function(d) { return (comparison == 'percent' ? '% ' : "USD ") + d; });
 
                 d3.selectAll(".axis path")
                     .style("fill", "none")
@@ -206,7 +208,7 @@
                     .attr("y", -60)
                     .attr("text-anchor", "middle")
                     .style("font", "20px sans-serif")
-                    .text("Week over week " + (comparison == 'percent' ? 'percent ' : '') + "gain/loss compared to " + (currency == 'BTC' ? 'BTC' : 'USD'));
+                    .text("Week over week " + (comparison == 'percent' ? 'percent ' : '') + "gain/loss " + (currency == 'BTC' ? 'vs. BTC in USD' : 'in USD'));
                 
                 var movesize = width/2 - startp.node().getBBox().width/2;
                 d3.selectAll(".legendbox").attr("transform", "translate(" + movesize  + ",0)");
